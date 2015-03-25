@@ -151,7 +151,50 @@
             $this->assertEquals($test_book, $result);
         }
 
+        function test_deleteBook()
+        {
+            //Arrange
+            $id = null;
+            $title = "Modern PHP";
+            $test_book = new Book($id, $title);
+            $test_book->save();
 
+            $id2 = null;
+            $title2 = "MySQL, PHP, and JS";
+            $test_book2 = new Book($id2, $title2);
+            $test_book2->save();
+
+            $id3 = null;
+            $title3 = "Crazy PHP";
+            $test_book3= new Book($id, $title3);
+            $test_book3->save();
+
+            //Act
+            $test_book2->deleteBook();
+            $test_book3->deleteBook();
+
+            $result = Book::getAll();
+
+            //Assert
+            $this->assertEquals([$test_book], $result);
+        }
+
+        function testUpdate()
+        {
+            //Arrange
+            $id = 1;
+            $title = "Modern PHP";
+            $test_book = new Book($id, $title);
+            $test_book->save();
+
+            $new_book = "Crazy PHP";
+
+            //Act
+            $test_book->update($new_book);
+
+            //Assert
+            $this->assertEquals("Crazy PHP", $test_book->getTitle());
+        }
 
     }
 ?>
