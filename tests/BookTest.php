@@ -243,5 +243,39 @@
             $this->assertEquals($test_book->getAuthors(), [$test_author, $test_author2]);
         }
 
+        function testSearchBooks()
+        {
+            //Arrange
+            $id = 1;
+            $title = "Crazy PHP";
+            $test_book = new Book($id, $title);
+            $test_book->save();
+
+            $id = 2;
+            $title2 = "Crazy Java";
+            $test_book2 = new Book($id, $title2);
+            $test_book2->save();
+
+            $id = 3;
+            $title3 = "Ruby in Rail";
+            $test_book3 = new Book($id, $title3);
+            $test_book3->save();
+
+            $id = 4;
+            $title4 = "Crazy PHP";
+            $test_book4 = new Book($id, $title4);
+            $test_book4->save();
+
+
+            //Act
+            $search_book = "Crazy PHP";
+            $result= Book::searchBooks($search_book);
+            var_dump($result);
+
+            //Assert
+            $this->assertEquals([$test_book, $test_book4], $result);
+        }
+
+
     }
 ?>

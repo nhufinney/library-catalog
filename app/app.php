@@ -22,7 +22,7 @@
 
 //BOOKS**************************
     $app->get("/books", function() use ($app) {
-        return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
+        return $app['twig']->render('books.html.twig', array('books' => Book::getAll(), 'found_books'=>[]));
     });
 
     $app->post("/books", function() use ($app) {
@@ -65,6 +65,15 @@
        $book->deleteBook();
        return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
    });
+
+   $app->get("/search", function() use ($app){
+      //$all_books = Book::getAll();
+      $search_book = $_GET['search'];
+      $found_books = Book::searchBooks($search_book);
+
+      return $app['twig']->render('books.html.twig', array('books' => Book::getAll() ,  'found_books'=>$found_books));
+   });
+
 
 
 //AUTHORS*********************************

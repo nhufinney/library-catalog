@@ -15,18 +15,33 @@
     {% endif %}
 
     <form action='/books' method='post'>
-        <label for='title'>Book title</label>
+        <label for='title'>Add more book</label>
         <input id='title' name='title' type='text'>
 
-        <button type='submit'>Add book</button>
+        <button type='submit'>Add new</button>
     </form>
-
+    <br> <br>
     <form action='/delete_books' method='post'>
         <input name='_method' type='hidden' value='delete'>
-        <button type='submit'>Clear this list</button>
+        <button type='submit'>Clear this book list</button>
+    </form>
+    <p><a href='/'>Home</a></p>
+    <br><br>
+
+    <form action='/search' method='get'>
+        <label for='search'>Search by title or author</label>
+        <input id='search' name='search' type='text'>
+        <button type='submit'>Search</button>
     </form>
 
-    <p><a href='/'>Home</a></p>
+    {% if found_books is not empty %}
+        <p>Here are all the books you search for:</p>
+        <ul>
+            {% for book in found_books %}
+                <li><a href="/books/{{ book.getId }}">{{ book.getTitle }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 </body>
 </html>

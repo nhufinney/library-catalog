@@ -109,6 +109,21 @@
             return $authors;
         }
 
-    }
+        static function searchBooks($title)
+        {
+            $all_books = Book::getAll();
+            $found_books = array();
+            foreach($all_books as $book)
+            {
+                $book_title = $book->getTitle();
+                if ($book_title == $title)
+                {
+                    array_push($found_books, $book);
+                }
+            }
+            return $found_books;
+        }
+
+}
 
 ?>
