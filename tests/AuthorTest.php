@@ -197,5 +197,59 @@
             $this->assertEquals("Crazy PHP", $test_author->getAuthor());
         }
 
+        function testAddBook()
+        {
+            //Arrange
+            $id = 1;
+            $title = "Crazy PHP";
+            $test_book = new Book($id, $title);
+            $test_book->save();
+
+            $id = 2;
+            $title2 = "Crazy Javascript";
+            $test_book2 = new Book($id, $title2);
+            $test_book2->save();
+
+            $author = "Nhu Finney";
+            $id = null;
+            $test_author = new Author($id, $author);
+            $test_author->save();
+
+            //Act
+            $test_author->addBook($test_book);
+            $test_author->addBook($test_book2);
+
+            //Assert
+            $this->assertEquals($test_author->getBooks(), [$test_book, $test_book2]);
+        }
+
+        function testGetBooks()
+        {
+            ///Arrange
+            $id = 1;
+            $title = "Crazy PHP";
+            $test_book = new Book($id, $title);
+            $test_book->save();
+
+            $id = 2;
+            $title2 = "Crazy Javascript";
+            $test_book2 = new Book($id, $title2);
+            $test_book2->save();
+
+            $author = "Nhu Finney";
+            $id = null;
+            $test_author = new Author($id, $author);
+            $test_author->save();
+
+
+            //Act
+            $test_author->addBook($test_book);
+            $test_author->addBook($test_book2);
+
+
+            //Assert
+            $this->assertEquals($test_author->getBooks(), [$test_book, $test_book2]);
+        }
+
     }
 ?>

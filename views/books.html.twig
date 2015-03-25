@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Library Catalog</title>
+</head>
+<body>
+    <h1>List of Books</h1>
+
+    {% if books is not empty %}
+        <p>Here are all your books:</p>
+        <ul>
+            {% for book in books %}
+                <li><a href="/books/{{ book.getId }}">{{ book.getTitle }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action='/books' method='post'>
+        <label for='title'>Book title</label>
+        <input id='title' name='title' type='text'>
+
+        <button type='submit'>Add book</button>
+    </form>
+
+    <form action='/delete_books' method='post'>
+        <input name='_method' type='hidden' value='delete'>
+        <button type='submit'>Clear this list</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+
+</body>
+</html>

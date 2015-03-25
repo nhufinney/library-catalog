@@ -71,12 +71,42 @@
         function deleteBook()
         {
             $GLOBALS['DB']->exec("DELETE FROM books WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM books_authors WHERE book_id = {$this->getId()};");
         }
 
         function update($new_title)
         {
             $GLOBALS['DB']->exec("UPDATE books SET title = '{$new_title}' WHERE id = {$this->getId()};");
             $this->setTitle($new_title);
+        }
+
+        function addAuthor($author)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO books_authors (book_id, author_id) VALUES ({$this->getId()}, {$author->getId()});");
+        }
+
+        function getAuthors()
+        {
+            $query = $GLOBALS['DB']->query("SELECT author_id FROM books_authors WHERE book_id = {$this->getId()};");
+            $author_ids = $query->fetchAll(PDO::FETCH_ASSOC); //format author ids as an associative array.
+            $authors = array();
+            foreach($author_ids as $id) {
+                $author_id = $id['author_id'];
+
+                //get all authors matching the current author id out of the authors table (including their description).
+                $result = $GLOBALS['DB']->query("SELECT * FROM authors WHERE id = {$author_id};");
+                //format as associative array and store in $returned_author.
+                $returned_author = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                $author = $returned_author[0]['author'];
+
+                $id = $returned_author[0]['id'];
+
+                $new_author = new Author($id, $author);
+
+                array_push($authors, $new_author);
+            }
+            return $authors;
         }
 
     }

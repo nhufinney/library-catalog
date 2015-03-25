@@ -79,6 +79,36 @@
             $this->setAuthor($new_author);
         }
 
+
+        function addBook($book)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO books_authors (book_id, author_id) VALUES ({$book->getId()}, {$this->getId()});");
+        }
+
+        function getBooks()
+        {
+            $query = $GLOBALS['DB']->query("SELECT book_id FROM books_authors WHERE author_id = {$this->getId()};");
+            $book_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+            $books = array();
+
+            foreach($book_ids as $id) {
+                $book_id = $id['book_id'];
+
+                $result = $GLOBALS['DB']->query("SELECT * FROM books WHERE id = {$book_id};");
+
+                $returned_books = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                $book = $returned_books[0]['title'];
+
+                $id = $returned_books[0]['id'];
+
+                $new_book = new Book($id, $book);
+
+                array_push($books, $new_book);
+            }
+            return $books;
+        }
+
     }
 
 ?>
