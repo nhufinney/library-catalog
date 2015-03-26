@@ -34,14 +34,22 @@
         <button type='submit'>Search</button>
     </form>
 
-    {% if found_books is not empty %}
+    {% if result_books is not empty %}
         <p>Here are all the books you search for:</p>
         <ul>
-            {% for book in found_books %}
+            {% for book in result_books %}
                 <li><a href="/books/{{ book.getId }}">{{ book.getTitle }}</a></li>
             {% endfor %}
         </ul>
     {% endif %}
 
+    {% if result_authors is not empty %}
+        <p>Here are all the authors you search for:</p>
+        <ul>
+            {% for author in result_authors %}
+                <li><a href="/authors/{{ author.getId }}">{{ author.getAuthor }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>

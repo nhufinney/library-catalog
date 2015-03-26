@@ -22,7 +22,7 @@
 
 //BOOKS**************************
     $app->get("/books", function() use ($app) {
-        return $app['twig']->render('books.html.twig', array('books' => Book::getAll(), 'found_books'=>[]));
+        return $app['twig']->render('books.html.twig', array('books' => Book::getAll(), 'result_books'=>[], 'result_authors'=>[]));
     });
 
     $app->post("/books", function() use ($app) {
@@ -72,6 +72,18 @@
        $author->addBook($book);
        return $app['twig']->render('author.html.twig', array('author' =>$author, 'authors'=> Author::getAll(), 'books' => $author->getBooks(), 'all_books'=> Book::getAll()));
    });
+
+
+
+//ROUTES for SEARCH FEATURE
+
+    $app->get("/search", function() use ($app) {
+        $search = $_GET['search'];
+        $result_books = Book::searchBooks($search);
+        $result_authors = Author::searchAuthors($search);
+
+        return $app['twig']->render('books.html.twig', array('result_books'=>$result_books , 'result_authors'=>$result_authors, 'books' => Book::getAll()));
+    });
 
 
 
