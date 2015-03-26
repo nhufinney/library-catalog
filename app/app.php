@@ -66,45 +66,6 @@
        return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
    });
 
-   // $app->get("/search", function() use ($app){
-   //    $search_book = $_GET['search'];
-   //    $found_books = Book::searchBooks($search_book);
-   //
-   //    return $app['twig']->render('books.html.twig', array('books' => Book::getAll() ,  'found_books'=>$found_books));
-   // });
-   // $app->get("/search", function() use ($app){
-   //    $search_book = $_GET['search'];
-   //
-   //    $query = $GLOBALS['DB']->query("SELECT * FROM books WHERE title LIKE '%$search_book%';");
-   //    $returned_books = $query->fetchAll(PDO::FETCH_ASSOC);
-   //    $books = array();
-   //
-   //    foreach($returned_books as $book)
-   //    {
-   //        $id = $book['id'];
-   //        $title = $book['title'];
-   //        $new_book = new Book($id, $title);
-   //        array_push($books, $new_book);
-   //    }
-   //    return $books;
-   //    if (count($books) == 0)
-   //    {
-   //        $query = $GLOBALS['DB']->query("SELECT * FROM authors WHERE author LIKE '%$search_book%';");
-   //        $returned_authors = $query->fetchAll(PDO::FETCH_ASSOC);
-   //        foreach($returned_authors as $author)
-   //        {
-   //            $id = $author['id'];
-   //            $author = $author['author'];
-   //            $new_author = new Author($id, $author);
-   //            array_push($books, $new_author);
-   //        }
-   //        return $books;
-   //    }
-   //
-   //      }
-   //
-   // });
-
    $app->post("/add_books", function() use ($app) {
        $book = Book::find($_POST['book_id']);
        $author = Author::find($_POST['author_id']);

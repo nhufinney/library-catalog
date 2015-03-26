@@ -109,6 +109,21 @@
             return $books;
         }
 
+        static function searchAuthors($search_author)
+        {
+            $query = $GLOBALS['DB']->query("SELECT * FROM authors WHERE author LIKE '%{$search_author}%';");
+            $found_authors = $query->fetchAll(PDO::FETCH_ASSOC);
+            $authors = array();
+
+            foreach($found_authors as $author) {
+                $new_author = new Author($author['id'], $author['author']);
+                array_push($authors, $new_author);
+            }
+            return $authors;
+        }
+
+
+
     }
 
 ?>

@@ -268,7 +268,7 @@
 
 
             //Act
-            $search_book = "Crazy PHP";
+            $search_book = "PHP";
             $result= Book::searchBooks($search_book);
             var_dump($result);
 

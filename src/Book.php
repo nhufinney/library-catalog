@@ -4,7 +4,7 @@
         private $id;
         private $title;
 
-        function __construct($id, $title)
+        function __construct($id = null, $title)
         {
             $this->id = $id;
             $this->title = $title;
@@ -93,36 +93,31 @@
             foreach($author_ids as $id) {
                 $author_id = $id['author_id'];
 
-                //get all authors matching the current author id out of the authors table (including their description).
                 $result = $GLOBALS['DB']->query("SELECT * FROM authors WHERE id = {$author_id};");
-                //format as associative array and store in $returned_author.
+
                 $returned_author = $result->fetchAll(PDO::FETCH_ASSOC);
 
-                $author = $returned_author[0]['author'];
-
-                $id = $returned_author[0]['id'];
-
-                $new_author = new Author($id, $author);
+                $new_author = new Author($returned_author[0]['id'], $returned_author[0]['author']);
 
                 array_push($authors, $new_author);
             }
             return $authors;
         }
 
-        static function searchBooks($title)
+        static function searchBooks($search_title)
         {
-            $all_books = Book::getAll();
-            $found_books = array();
-            foreach($all_books as $book)
-            {
-                $book_title = $book->getTitle();
-                if ($book_title == $title)
-                {
-                    array_push($found_books, $book);
-                }
+            $query = $GLOBALS['DB']->query("SELECT * FROM books WHERE title LIKE '%{$search_title}%';");
+            $search_books = $query->fetchAll(PDO::FETCH_ASSOC);
+            $books = array();
+
+            foreach($search_books as $book) {
+                $new_book = new Book($book['id'], $book['title']);
+                array_push($books, $new_book);
             }
-            return $found_books;
+            return $books;
         }
+
+
 
 }
 
