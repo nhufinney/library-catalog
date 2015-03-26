@@ -63,7 +63,7 @@
     $app->delete("/books/{id}", function($id) use ($app){
        $book = Book::find($id);
        $book->deleteBook();
-       return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
+       return $app['twig']->render('books.html.twig', array('books' => Book::getAll(), 'result_books' => []));
    });
 
    $app->post("/add_books", function() use ($app) {
@@ -75,7 +75,7 @@
 
 
 
-//ROUTES for SEARCH FEATURE
+//ROUTE for SEARCH FEATURE
 
     $app->get("/search", function() use ($app) {
         $search = $_GET['search'];
@@ -131,6 +131,13 @@
         $author = Author::find($id);
         $author->deleteAuthor();
         return $app['twig']->render('authors.html.twig', array('authors' => Author::getAll()));
+    });
+
+    $app->post("/add_authors", function() use ($app) {
+        $book = Book::find($_POST['book_id']);
+        $author = Author::find($_POST['author_id']);
+        $book->addAuthor($author);
+        return $app['twig']->render('book.html.twig', array('book' =>$book, 'authors'=> Author::getAll(), 'authors' => $book->getAuthors(), 'all_authors'=> Author::getAll()));
     });
 
 

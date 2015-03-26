@@ -71,6 +71,7 @@
         function deleteAuthor()
         {
             $GLOBALS['DB']->exec("DELETE FROM authors WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM books_authors WHERE author_id = {$this->getId()};");
         }
 
         function update($new_author)
